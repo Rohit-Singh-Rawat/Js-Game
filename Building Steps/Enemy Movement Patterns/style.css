@@ -1,0 +1,38 @@
+#canvas1{
+    position: relative;
+    border: 3px solid black;
+    height: 600px;
+    background-color: aliceblue;
+}
+#container{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 5px;
+    position: relative;
+    width: 100%;
+}
+#canvas2{
+    position: relative;
+    border: 3px solid black;
+    background-color: aliceblue;
+    height: 600px;
+    
+}
+#canvas3{
+    position: relative;
+    border: 3px solid black; 
+    background-color: aliceblue;
+    height: 600px;
+    
+}
+#canvas4{
+    position: relative;
+    border: 3px solid black;
+    background-color: aliceblue;
+    height: 600px;
+    
+}
+
+body{
+    background-color:blueviolet;
+}
