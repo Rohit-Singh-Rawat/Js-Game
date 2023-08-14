@@ -1,0 +1,23 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+body{
+    background-color: black;
+
+}
+#playerimg{
+    display: none;
+
+}
+#canvas1{
+    position: absolute;
+    transform: translate(-50%, -50%);
+    top: 50%;
+    left: 50%;
+    width: 1000px;
+    height: 600px;
+    border: 15px solid white;
+}
