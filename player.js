@@ -1,7 +1,6 @@
 
-import {states, Sitting, Running, Jumping, Falling} from "./playerStates.js";
-
-
+import {states, Sitting, Running, Jumping, Falling, Rolling, Diving, Hit, Die} from "./playerStates.js";
+import { CollsionAnimation } from "./collisionAnimation.js";
 
 export default class Player{
     constructor(game){
@@ -21,13 +20,14 @@ export default class Player{
         this.fps = 30;
         this.intervalForFrame = 1000/this.fps;
         this.timer = 0;
-        this.states = [new Sitting(this), new Running(this), new Jumping(this), new Falling(this)];
+        this.states = [new Sitting(this), new Running(this), new Jumping(this), new Falling(this), new Rolling(this), new Diving(this), new Hit(this), new Die(this)];
         this.currentState = this.states[0];
         this.currentState.enter();
 
 
     }
     draw(context){
+        if (this.game.debug) context.strokeRect(this.x, this.y, this.width, this.height);
         context.drawImage(this.image,this.width * this.frameX,this.height * this.frameY, this.width, this.height, this.x, this.y, this.width, this.height);
     }
     update(input, deltatime){
@@ -58,5 +58,27 @@ export default class Player{
     }
     onGround(){
         return this.y >= this.game.height - this.height - this.game.groundMargin;
+    }
+    checkCollision(){
+        if ((this.game.lives <= 0) && this.game.collisions.length === 0 && this.game.player.onGround()) {
+            if(this.frameX >= this.maxFrame) this.game.gameOver = true;}
+        this.game.enemies.forEach(enemy =>{
+            if (enemy.y + enemy.height > this.y &&
+                enemy.x +enemy.width> this.x &&
+                enemy.y < this.y + this.height &&
+                enemy.x < (this.x + this.width) * 0.9
+            ){
+                this.game.collisions.push(new CollsionAnimation(this.game, enemy.x, enemy.y))
+                enemy.markedForDeletion = true;
+                
+                if (this.currentState === this.states[4] || this.currentState === this.states[5]){
+                    ++this.game.score;
+                }
+                else {
+                    --this.game.lives;
+                    this.setState(6, 0);
+                }
+            }
+        })
     }
 }
